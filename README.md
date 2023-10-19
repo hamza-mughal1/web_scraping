@@ -1,2 +1,4 @@
 # web_scraping
- code realed to web scraping. my web scraping journey
+created on 19/10/2023
+
+ here i will put my web scraping journey and code :)
