@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-"""defing function to fatch data from single div"""
+"""defing function to fatch data from single div at a time"""
 def foo(main_div,spec_count = False,specific = []):
     """args : {main div : div which have to fetch data from}"""
 
