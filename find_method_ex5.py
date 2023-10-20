@@ -88,10 +88,10 @@ if __name__ == "__main__":
 
     specific_country = ["Pakistan","India","Israel","Palestine","United States"]
     div_lis = soup.find_all("div",{"class":"col-md-4 country"})
-    print(len(div_lis),"\n\n")
+    print(len(div_lis),"\n")
 
     for pos,i in enumerate(div_lis):
         res = foo(i,spec_count=True,specific=specific_country)
         if res:
-            print("\n\n")
+            print("\n")
 
