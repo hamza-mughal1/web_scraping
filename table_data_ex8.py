@@ -45,15 +45,15 @@ def extract_Data_from_Table(url):
                     headers[8]:plus_or_minus})
 
     return df
+if __name__ == "__main__":
+    df1 = extract_Data_from_Table("https://www.scrapethissite.com/pages/forms/?page_num=1")
 
-df1 = extract_Data_from_Table("https://www.scrapethissite.com/pages/forms/?page_num=1")
+    for i in range(2,25):
+        url = f"https://www.scrapethissite.com/pages/forms/?page_num={i}"
+        df2 = extract_Data_from_Table(url)
+        df1 = df1._append(df2)
 
-for i in range(2,25):
-    url = f"https://www.scrapethissite.com/pages/forms/?page_num={i}"
-    df2 = extract_Data_from_Table(url)
-    df1 = df1._append(df2)
-
-l = [i for i in range(len(df1))]
-df1.insert(0,"idx",l,True)
-df1.to_csv("table_Data.csv",index=False)
-df1.to_excel("table_Data.xlsx",index=False)
+    l = [i for i in range(len(df1))]
+    df1.insert(0,"idx",l,True)
+    df1.to_csv("table_Data.csv",index=False)
+    df1.to_excel("table_Data.xlsx",index=False)
