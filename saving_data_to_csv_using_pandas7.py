@@ -31,3 +31,4 @@ df = pd.DataFrame({"country name":country_name,
                    "country_area":country_area})
 
 df.to_excel("country_data_scraped.xlsx")
+df.to_csv("country_data_scraped.csv")
