@@ -2,8 +2,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 import pandas as pd
-import time
-
 
 
 def func(name,function,element):
@@ -16,14 +14,6 @@ def func(name,function,element):
                 return result
         except:
              return None
-
-
-
-
-
-
-
-
 
 
 url = "https://www.daraz.pk/catalog/?spm=a2a0e.home.search.1.35e340761IDnMC&q=gaming%20pc&_keyori=ss&from=search_history&sugg=gaming%20pc_0_1"
