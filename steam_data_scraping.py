@@ -112,3 +112,4 @@ if __name__ == "__main__":
                        "links":links})
     
     df.to_excel("steam_upcoming_games.xlsx")
+    
