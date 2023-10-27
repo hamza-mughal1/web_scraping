@@ -1,3 +1,23 @@
+"""
+    q) what this program does?
+    
+    a) this program takes all upcoming games info like 
+    (name,genre,studio,developer,publisher,franchise,release date,twitter,youtube,game link) 
+    on steam and save it into an excel file.
+    
+    q) how this program works?
+    
+    a) this program first opens upcoming list page of steam in selenium
+    then loads whole page by scrolling to bottom
+    then passes the html of web page to beautiful soup
+    then beautiful soup opens every game on that list
+    then beautiful soup scraps data from games
+    then by pandas creates a framework 
+    then saves framework into excel file
+"""
+
+
+"""importing modules"""
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -5,13 +25,24 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 import time
 
+"""defing functions"""
 def selenium_to_load_full_page(url):
+    """
+    this function opens web page into selenium then loads it and returns html
+    """
+
+    """
+    option makes selenium to open chrome in headless mode or CLI mode
+    """
     option = webdriver.ChromeOptions()
     option.add_argument('--headless')
 
+    """creating chrome driver and opening web page using selenium"""
     s = Service("C:/Users/Hamza/Documents/web_scraping/chromedriver.exe")
     driver = webdriver.Chrome(service= s,options=option)
     driver.get(url)
+
+    """checking if we are at bottom of the page by scrolling in loop"""
     older = driver.execute_script("return document.body.scrollHeight")
     while True:
         time.sleep(1)
@@ -23,6 +54,10 @@ def selenium_to_load_full_page(url):
         older = old_height
         
 def list_of_products(url):
+    """
+    this function takes a url and pass into 'selenium_to_load_full_page' function
+    which gives html and from that html it extracts each game div into a list and returns that list 'lis'
+    """
     lis = []
     response = selenium_to_load_full_page(url)
     soup = BeautifulSoup(response,"lxml")
@@ -35,6 +70,7 @@ def list_of_products(url):
     return lis
 
 def extract_data_of_game(product_url):
+    """this function takes game's link once at a time then extracts data from that game and returns it"""
     title = ""
     genre = ""
     release_date = ""
@@ -88,10 +124,12 @@ def extract_data_of_game(product_url):
     return title,genre,developer,publisher,franchise,release_date,website,twitter,youtube
 
 def main(url,titles,genre,developers,publishers,franchises,release_dates,websites,twitter,youtube,links):
+    """this function does combining work for all functions
+    first it calls 'list_of_products' function which returns list then by looping that list it calls 
+    extract_data_of_game which returns data of game then it appends that data into different lists"""
     products = list_of_products(url)
 
-    for pos,i in enumerate(products):
-        print(pos)
+    for i in enumerate(products):
         extract = extract_data_of_game(i)
         titles.append(extract[0])
         genre.append(extract[1])
@@ -105,7 +143,9 @@ def main(url,titles,genre,developers,publishers,franchises,release_dates,website
     
     links[:] = products
 
+"""strating main"""
 if __name__ == "__main__":
+    """defining url of web page and global variables"""
     url = "https://store.steampowered.com/search/?filter=popularcomingsoon&ndl=1"
     titles = []
     genre = []
@@ -118,9 +158,10 @@ if __name__ == "__main__":
     youtube = []
     links = []
 
+    """calling 'main' function which will append data into lists which are passing as arguments"""
     main(url,titles,genre,developers,publishers,franchises,release_dates,websites,twitter,youtube,links)
-    print(len(titles),len(genre),len(developers),len(publishers),len(franchises),len(release_dates),len(websites),len(twitter),len(youtube),len(links))
 
+    """creating pandas data frame"""
     df = pd.DataFrame({"titles":titles,
                        "genre":genre,
                        "developers":developers,
@@ -132,6 +173,7 @@ if __name__ == "__main__":
                        "youtube":youtube,
                        "links":links})
     
+    """saving dataframe into excel file"""
     df.to_excel("steam_upcoming_games.xlsx")
 
     
